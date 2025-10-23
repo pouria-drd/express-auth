@@ -83,15 +83,7 @@ This project provides a secure, production-ready authentication system with emai
 ## 🧩 Project Structure
 
 ```
-src/
-├── logs/
-│   ├── combined.log
-│   ├── debug.log
-│   ├── error.log
-│   ├── http.log
-│   ├── info.log
-│   ├── warn.log
-│   
+src/  
 ├── configs/
 │   ├── env.config.ts
 │   ├── db.config.ts
@@ -99,13 +91,9 @@ src/
 │   └── logger.config.ts
 │
 ├── controllers/
-│   ├── auth.controller.ts
 │
-├── middlewares/
-│   ├── auth.middleware.ts
-│
-├── models/
-│   ├── user.model.ts
+├── errors/
+│   └── app.error.ts
 │
 ├── lib/
 │   ├── utils/
@@ -115,9 +103,18 @@ src/
 │       ├── env.scheme.ts
 │       └── index.ts 
 │
+├── middlewares/
+│   ├── asyncHandler.middleware.ts
+│   ├── error.middleware.ts
+│   ├── httpLogger.middleware.ts
+│   ├── notFound.middleware.ts
+│   └── index.ts
+│
 ├── types/
 │   ├── common.types.ts
 │   └── index.ts
+│
+├── app.ts
 └── server.ts
 ```
 
