@@ -6,8 +6,11 @@ import express, { Request, Response } from "express";
 
 import ENV from "@/configs/env.config";
 import { getAppVersion } from "@/lib/utils";
+import { errorMiddleware, httpLogger, notFoundMiddleware } from "@/middlewares";
 
 const app = express();
+
+app.use(httpLogger);
 
 //  Serve favicon before other middleware
 app.use(favicon(path.join(process.cwd(), "public", "favicon.ico")));
@@ -42,11 +45,19 @@ app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
  * Returns basic app info and version.
  */
 app.get("/", (req: Request, res: Response) => {
-	res.json({
+	res.status(200).json({
 		success: true,
-		name: "Chat Server",
+		name: "Auth Server",
 		version: getAppVersion(),
-		message: "Welcome to the chat server!",
+		message: "Welcome to the Auth Server API!",
+		data: {
+			ip: req.ip,
+			hostname: req.hostname,
+			protocol: req.protocol,
+			method: req.method,
+			url: req.url,
+			path: req.path,
+		},
 	});
 });
 
@@ -54,10 +65,7 @@ app.get("/", (req: Request, res: Response) => {
  * ❌  Global Error Handler
  * ----------------------------------------------------------- */
 
-/**
- * Handles all errors thrown from routes or middleware.
- * Must be the last middleware in the chain.
- */
-// app.use(errorMiddleware);
+app.use(notFoundMiddleware); // 404 handler
+app.use(errorMiddleware); // global error handler
 
 export default app;
