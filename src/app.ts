@@ -5,8 +5,8 @@ import cookieParser from "cookie-parser";
 import express, { Request, Response } from "express";
 
 import ENV from "@/configs/env.config";
-import { getAppVersion } from "@/lib/utils";
 import { errorMiddleware, httpLogger, notFoundMiddleware } from "@/middlewares";
+import { getAppInfo } from "./controllers/app.controller";
 
 const app = express();
 
@@ -41,25 +41,9 @@ app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 // app.use("/api", router);
 
 /**
- * Root route (health check / info endpoint)
  * Returns basic app info and version.
  */
-app.get("/", (req: Request, res: Response) => {
-	res.status(200).json({
-		success: true,
-		name: "Auth Server",
-		version: getAppVersion(),
-		message: "Welcome to the Auth Server API!",
-		data: {
-			ip: req.ip,
-			hostname: req.hostname,
-			protocol: req.protocol,
-			method: req.method,
-			url: req.url,
-			path: req.path,
-		},
-	});
-});
+app.get("/", getAppInfo);
 
 /* -----------------------------------------------------------
  * ❌  Global Error Handler
