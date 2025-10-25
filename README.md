@@ -53,6 +53,9 @@ This project provides a secure, production-ready authentication system with emai
     # Port
     PORT="5500"
 
+    # Base API route
+    BASE_API_ROUTE="/api"
+
     # Environment
     NODE_ENV="development"
 
@@ -91,6 +94,7 @@ src/
 │   └── logger.config.ts
 │
 ├── controllers/
+│   └── app.controller.ts
 │
 ├── errors/
 │   └── app.error.ts
@@ -108,6 +112,10 @@ src/
 │   ├── error.middleware.ts
 │   ├── httpLogger.middleware.ts
 │   ├── notFound.middleware.ts
+│   └── index.ts
+│
+├── routes/
+│   ├── app.route.ts
 │   └── index.ts
 │
 ├── types/

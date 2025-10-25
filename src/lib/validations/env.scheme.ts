@@ -15,6 +15,16 @@ const envSchema = z.object({
 		.refine((val) => val > 0 && val < 65536, {
 			error: "PORT must be a number between 1 and 65535",
 		}),
+
+	BASE_API_ROUTE: z
+		.string()
+		.regex(
+			/^\/[a-zA-Z0-9/_-]*$/,
+			"Must start with '/' and contain valid path characters",
+		)
+		.default("/api")
+		.transform((val) => val.replace(/\/+$/, "")), // remove trailing slash
+
 	NODE_ENV: z.enum(["development", "production"]).default("development"),
 
 	// Uploads

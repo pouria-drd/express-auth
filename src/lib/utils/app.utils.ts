@@ -1,6 +1,7 @@
+import mongoose from "mongoose";
 import AppError from "@/errors/app.error";
-import packageJson from "../../../package.json";
 import { Request, Response } from "express";
+import packageJson from "../../../package.json";
 
 /**
  * Get the current application version.
@@ -35,4 +36,21 @@ function sendResponse(
 	res.status(status).json({ success: true, message, data });
 }
 
-export { getAppVersion, isAppError, sendResponse };
+/**
+ * Health check for MongoDB connection.
+ * @returns "ok" if connected and responsive, otherwise "down".
+ */
+async function checkMongoConnection(): Promise<"ok" | "down"> {
+	try {
+		// Check Mongoose ready state and ensure db instance exists
+		if (mongoose.connection.readyState === 1 && mongoose.connection.db) {
+			await mongoose.connection.db.admin().ping();
+			return "ok";
+		}
+		return "down";
+	} catch {
+		return "down";
+	}
+}
+
+export { checkMongoConnection, getAppVersion, isAppError, sendResponse };

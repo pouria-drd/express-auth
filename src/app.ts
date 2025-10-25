@@ -1,12 +1,12 @@
 import path from "path";
 import cors from "cors";
+import express from "express";
 import favicon from "serve-favicon";
 import cookieParser from "cookie-parser";
-import express, { Request, Response } from "express";
 
+import router from "@/routes";
 import ENV from "@/configs/env.config";
 import { errorMiddleware, httpLogger, notFoundMiddleware } from "@/middlewares";
-import { getAppInfo } from "./controllers/app.controller";
 
 const app = express();
 
@@ -33,23 +33,12 @@ app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 /* -----------------------------------------------------------
  * 🚏  Routes
  * ----------------------------------------------------------- */
-
-/**
- * Mount all application routes under `/api`
- * Example: /api/auth, /api/users, /api/posts
- */
-// app.use("/api", router);
-
-/**
- * Returns basic app info and version.
- */
-app.get("/", getAppInfo);
+app.use(ENV.BASE_API_ROUTE, router);
 
 /* -----------------------------------------------------------
- * ❌  Global Error Handler
+ * ❌  Global Error Handlers
  * ----------------------------------------------------------- */
-
-app.use(notFoundMiddleware); // 404 handler
-app.use(errorMiddleware); // global error handler
+app.use(notFoundMiddleware);
+app.use(errorMiddleware);
 
 export default app;
