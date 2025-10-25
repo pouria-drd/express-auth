@@ -63,5 +63,4 @@ dist
 dist/*
 
 # avatars folder
-public/*
 uploads/*
